@@ -1,0 +1,20 @@
+.wave {
+  height: 90vh;
+  z-index: 5;
+  margin: 0;
+  transform: rotate(180deg);
+  position: absolute;
+}
+@media only screen and (max-width: 600px) {
+  .wave {
+    height: 98vh;
+    z-index: 5;
+    margin: 0;
+    transform: rotate(180deg);
+    position: absolute;
+  }
+}
+
+.intro {
+  z-index: 10;
+}

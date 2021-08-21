@@ -1,0 +1,14 @@
+.reusable-hero-container{
+    @apply relative;
+}
+
+.reusable-hero-container::after{
+    position:absolute;
+    content: "";
+    background:rgba(0,0,0,0.5);
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    
+}
