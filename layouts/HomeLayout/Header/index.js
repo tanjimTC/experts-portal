@@ -36,7 +36,7 @@ const Header = () => {
           onClick={() => router.push("/")}
           className={`${style["header-logo-container"]} cursor-pointer `}
         >
-          <Logo color={pos < 350 ? "white" : "black"} />
+          <Logo />
         </div>
 
         <div className={style["header-content-menu"]}>

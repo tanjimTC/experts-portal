@@ -1,9 +1,6 @@
-export const Logo = (props) => {
+export const Logo = () => {
   return (
-    <p
-      className={`${props.color}`}
-      style={{ fontSize: "25px", fontFamily: "Pacifico" }}
-    >
+    <p className={`text-xl mt-2 md:mt-0`} style={{ fontFamily: "Pacifico" }}>
       Experts Portal
     </p>
   );

@@ -2,6 +2,7 @@ import React from "react";
 import SignUpForm from "./SignUpForm";
 import Wave from "react-wavify";
 import style from "./style.module.css";
+import Link from "next/link";
 
 const HeroSection = () => {
   return (
@@ -20,7 +21,7 @@ const HeroSection = () => {
                 type="submit"
                 className="bg-gray-100 text-textColor3 text-base font-semibold py-2 px-4 md:px-8  transition-colors duration-300 rounded-md"
               >
-                Get Appointment
+                <Link href="/appointment">Get Appointment</Link>
               </button>
             </div>
           </div>

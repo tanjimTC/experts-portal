@@ -21,20 +21,21 @@ const Footer = () => {
   return (
     <div className={style["footer-container"]}>
       <div className={style["footer-address-section"]}>
-        <Logo fill="white" />
+        <Logo />
+        <br />
         <ul>
           <li>
-            <IoMdPin className={style["footer-address-section-icons"]} /> 50 230
-            Vesey St,
-            <br /> New York, NY 10281
+            <IoMdPin className={style["footer-address-section-icons"]} />
+            19/1, Rajar Goli,
+            <br /> Sylhet, Bangladesh
           </li>
           <li>
             <FaPhoneAlt className={style["footer-address-section-icons"]} /> +1
-            (347) 849-7449
+            +1-5437-829-4544
           </li>
           <li>
             <MdEmail className={style["footer-address-section-icons"]} />{" "}
-            info@algosolver.com
+            info@expertsportal.com
           </li>
         </ul>
       </div>
@@ -52,10 +53,10 @@ const Footer = () => {
             <Link href="/services"> Services </Link>
           </li>
           <li>
-            <Link href="/portfolio">Portfolio</Link>
+            <Link href="/deshboard">Deshboard</Link>
           </li>
           <li>
-            <Link href="/careers">Career</Link>
+            <Link href="/blogs">Blog</Link>
           </li>
           <li>
             <Link href="/contact-us">Contact Us</Link>
@@ -64,39 +65,17 @@ const Footer = () => {
       </div>
 
       <div className={style["footer-service-section"]}>
-        <p>Our Services</p>
-        <ul>
-          <li>
-            <Link href="/services"> Ecommerce </Link>
-          </li>
-          <li>
-            <Link href="/services"> Website Migration </Link>
-          </li>
-          <li>
-            <Link href="/services"> Search Engine Optimization </Link>
-          </li>
-          <li>
-            <Link href="/services"> Web Design Services </Link>
-          </li>
-          <li>
-            <Link href="/services"> Web Security Services </Link>
-          </li>
-          <li>
-            <Link href="/services"> Website Speed Optimization </Link>
-          </li>
-          <li>
-            <Link href="/services"> Learning Management Systems </Link>
-          </li>
-          <li>
-            <Link href="/services"> Digital Merketing Service </Link>
-          </li>
-          <li>
-            <Link href="/services"> Software Development </Link>
-          </li>
-          <li>
-            <Link href="/services"> App Development </Link>
-          </li>
-        </ul>
+        {/* <p className={"text-red-600 uppercase text-xl font-bold"}>Warning</p> */}
+        <img src="/images/footer/mujib_logo.jpg" alt="" className={"w-full "} />
+        <div className={"mt-2"}>
+          <p className="text-white text-justify text-sm">
+            The government of Bangladesh has announced the commemoration of
+            2020–2021 as the Mujib Year on the occasion of the centennial birth
+            anniversary of the founding leader of the country, Sheikh Mujibur
+            Rahman. This year will be celebrated from March 17, 2020 to March
+            26, 2021.
+          </p>
+        </div>
       </div>
 
       <div className={style["footer-legal-section"]}>
@@ -121,31 +100,34 @@ const Footer = () => {
           <AiOutlineCopyright
             className={style["footer-copyrights-section-icon"]}
           />
-          AlgoSolver LLC. All rights reserved 2021
+          Experts Portal. All rights reserved 2021
         </p>
 
         <div className={style["footer-social-icons-container"]}>
           <FaFacebookF
             onClick={() =>
-              w.open("https://www.facebook.com/algosolver.LLC", "__blank")
+              w.open("https://www.facebook.com/tanjim.chowdhurymac/", "__blank")
             }
             className={`${style["footer-social-icon"]} cursor-pointer `}
           />
           <FaTwitter
             onClick={() =>
-              w.open("https://twitter.com/AlgoSolverLLC", "__blank")
+              w.open("https://www.facebook.com/tanjim.chowdhurymac/", "__blank")
             }
             className={`${style["footer-social-icon"]} cursor-pointer `}
           />
           <FaInstagram
             onClick={() =>
-              w.open("https://www.instagram.com/algosolver.llc/", "__blank")
+              w.open("https://www.facebook.com/tanjim.chowdhurymac/", "__blank")
             }
             className={`${style["footer-social-icon"]} cursor-pointer `}
           />
           <FaLinkedinIn
             onClick={() =>
-              w.open("https://www.linkedin.com/company/algo-solver", "__blank")
+              w.open(
+                "https://www.linkedin.com/in/its-tanjim-chowdhury/",
+                "__blank"
+              )
             }
             className={`${style["footer-social-icon"]} cursor-pointer `}
           />
