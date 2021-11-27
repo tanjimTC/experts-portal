@@ -29,10 +29,10 @@ const Index = () => {
                 className="block appearance-none w-full bg-grey-lighter border border-grey-lighter text-grey-darker py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-grey"
                 {...register("category")}
               >
-                <option>Hotel</option>
-                <option>Apartment</option>
-                <option>House</option>
-                <option>Room</option>
+                <option>Economics</option>
+                <option>Financial</option>
+                <option>Engineering </option>
+                <option>Health</option>
               </select>
             </div>
             <div className="w-full md:w-2/4 px-3 md:mb-0 mt-6">

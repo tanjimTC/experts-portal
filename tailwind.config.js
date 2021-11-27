@@ -25,6 +25,7 @@ module.exports = {
         iconColor: "#A5A4BF",
         primaryBG: "#F0F0F7",
         btnColor1: "#3C85FB",
+        signBg: "#FF6E6E",
       },
       container: {
         center: true,
