@@ -1,15 +1,45 @@
 import "react-datepicker/dist/react-datepicker.css";
 import { useState } from "react";
 import AppointmentForm from "./AppointmentForm";
+import { dateFormat } from "../../../utils";
+import StripeCheckout from "react-stripe-checkout";
+import { useDispatch } from "react-redux";
+import { confirmBooking, makePayment } from "../../../redux/slices/expertSlice";
 
-const AppointmentBook = ({ onCloseModal }) => {
+const AppointmentBook = ({ onCloseModal, name, id, email, rate }) => {
   const [startDate, setStartDate] = useState(new Date());
   const [displayPayment, setDisplayPayment] = useState(false);
+  const [appointmentInfo, setAppointmentInfo] = useState({});
+  const dispatch = useDispatch();
 
   const onSubmit = (data) => {
-    console.log(data);
-    console.log(startDate);
+    data.expertId = id;
+    data.expertEmail = email;
+    data.rate = rate;
+    const fomatedDate = dateFormat(startDate, "MM-DD-YYYY");
+    data.date = fomatedDate;
+    setAppointmentInfo(data);
     setDisplayPayment(true);
+  };
+
+  const onToken = async (token) => {
+    if (token) {
+      const paymentData = {
+        tokenID: token.id,
+        ...appointmentInfo,
+      };
+      const res = await dispatch(makePayment(paymentData));
+      console.log(res);
+      if (res.payload?.status === "succeeded") {
+        dispatch(
+          confirmBooking({
+            ...res.meta.arg,
+            trxId: res.payload.balance_transaction,
+            receipt_url: res.payload.receipt_url,
+          })
+        );
+      }
+    }
   };
 
   return (
@@ -22,13 +52,20 @@ const AppointmentBook = ({ onCloseModal }) => {
           onSubmit={onSubmit}
           startDate={startDate}
           setStartDate={setStartDate}
+          name={name}
+          id={id}
+          email={email}
         />
       </div>
       <div
         className="bg-white p-2 md:px-8 md:pt-8"
         style={{ display: displayPayment ? "block" : "none" }}
       >
-        <h1>Payment</h1>
+        <StripeCheckout
+          token={onToken}
+          stripeKey="pk_test_51H2WPVJ0iICkOAizoTlJJ4ImEaEVMrGpN8CvR842BS0JoAxJ4v4a0seySHmZBffdQuwNSI5UGZiqcX8CSWFjRfQM00lHcTiPdI"
+          currency="BDT"
+        />
       </div>
     </div>
   );

@@ -1,11 +1,40 @@
 import HomeLayout from "../../layouts/HomeLayout";
 import { useForm } from "react-hook-form";
-import DoctorCard from "../../components/Cards/DoctorCard";
-import { doctorsData } from "../../Assets/Data/data";
+import ExpertCard from "../../components/Cards/ExpertCard";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import {
+  getAllExperts,
+  getExpertsByCategory,
+} from "../../redux/slices/expertSlice";
 
 const Index = () => {
   const { register, handleSubmit } = useForm();
-  const onSubmit = (data) => console.log(data);
+  const dispatch = useDispatch();
+  const [expert, setExpert] = useState("All");
+
+  const onSubmit = (data) => {
+    console.log(data);
+    if (data.category !== "All") {
+      dispatch(getExpertsByCategory(data.category));
+    }
+    if (data.category === "All") {
+      getExperts();
+    }
+    setExpert(data.category);
+  };
+
+  const getExperts = () => {
+    dispatch(getAllExperts());
+  };
+
+  useEffect(() => {
+    getExperts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const { allExperts } = useSelector((state) => state.expert);
+
   return (
     <HomeLayout>
       <div className="flex items-center bg-cover bg-sectionBG bg-bottom p-10 md:py-32 md:px-16">
@@ -29,6 +58,7 @@ const Index = () => {
                 className="block appearance-none w-full bg-grey-lighter border border-grey-lighter text-grey-darker py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-grey"
                 {...register("category")}
               >
+                <option>All</option>
                 <option>Economics</option>
                 <option>Financial</option>
                 <option>Engineering </option>
@@ -46,12 +76,10 @@ const Index = () => {
 
       <div className="bg-gradient-to-b from-gray-200 to-gray-400 bg-fixed h-full">
         <div className="container mx-auto p-4">
-          <h1 className="text-center text-2xl my-4">
-            Available Appointments on November 8, 2021
-          </h1>
+          <h1 className="text-center text-2xl my-4">{expert} Experts</h1>
           <div className="container grid gap-8 gap-y-8 md:grid-cols-2 lg:grid-cols-3 mb-16">
-            {doctorsData.map((data, index) => (
-              <DoctorCard {...data} key={index} />
+            {allExperts.map((data, index) => (
+              <ExpertCard {...data} key={index} />
             ))}
           </div>
         </div>

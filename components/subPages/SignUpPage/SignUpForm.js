@@ -8,12 +8,13 @@ import AxiosConfig from "../../../AxiosConfig/AxiosConfig";
 import { uploadImages } from "../../Image/ImageUploadCloud";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { css } from "@emotion/react";
 import ClipLoader from "react-spinners/ClipLoader";
+import { useDispatch } from "react-redux";
 
 const SignUpForm = () => {
   const [userImage, setUserImage] = useState("");
   const [processing, setProcessing] = useState(false);
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -44,6 +45,7 @@ const SignUpForm = () => {
         setUserImage("");
         reset();
         setProcessing(false);
+        dispatch(getAllExperts());
       })
       .catch((err) => console.log(err));
   };

@@ -10,7 +10,14 @@ import Error from "./Error";
 import { validationSchema } from "./validationSchema ";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-const AppointmentForm = ({ onSubmit, startDate, setStartDate }) => {
+const AppointmentForm = ({
+  onSubmit,
+  startDate,
+  setStartDate,
+  name,
+  id,
+  email,
+}) => {
   const {
     register,
     handleSubmit,
@@ -22,7 +29,7 @@ const AppointmentForm = ({ onSubmit, startDate, setStartDate }) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <h2 className="text-2xl text-gray-800 text-center">
-        Book Your Appointment
+        Book Your Appointment with {name}
       </h2>
       <div className="mt-6 md:mt-12">
         <div className="w-4/5 md:w-550 border-2 border-solid rounded flex items-center">
@@ -32,13 +39,13 @@ const AppointmentForm = ({ onSubmit, startDate, setStartDate }) => {
           <div className="flex-1">
             <input
               type="text"
-              {...register("name", { required: true })}
+              {...register("userName", { required: true })}
               placeholder="Name"
               className="h-10 py-1 pr-3 w-full"
             />
           </div>
         </div>
-        <Error message={errors.name?.message} />
+        <Error message={errors.userName?.message} />
 
         <div className="w-4/5 md:w-550 border-2 border-solid rounded flex items-center">
           <div className="w-10 h-10 flex justify-center items-center flex-shrink-0">
@@ -60,13 +67,13 @@ const AppointmentForm = ({ onSubmit, startDate, setStartDate }) => {
           <div className="flex-1">
             <input
               type="text"
-              {...register("email", { required: true })}
+              {...register("userEmail", { required: true })}
               placeholder="E-mail"
               className="h-10 py-1 pr-3 w-full"
             />
           </div>
         </div>
-        <Error message={errors.email?.message} />
+        <Error message={errors.userEmail?.message} />
 
         <div className="w-4/5 md:w-550 border-2 border-solid rounded flex items-center mt-2">
           <div className="w-10 h-10 flex justify-center items-center flex-shrink-0">
@@ -75,13 +82,13 @@ const AppointmentForm = ({ onSubmit, startDate, setStartDate }) => {
           <div className="flex-1">
             <input
               type="text"
-              {...register("phone", { required: true })}
+              {...register("userPhone", { required: true })}
               placeholder="Phone Number"
               className="h-10 py-1 pr-3 w-full"
             />
           </div>
         </div>
-        <Error message={errors.phone?.message} />
+        <Error message={errors.userPhone?.message} />
 
         <div className="text-right mt-6 md:mt-12">
           <button

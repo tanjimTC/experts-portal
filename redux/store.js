@@ -7,4 +7,5 @@ export const store = configureStore({
     driver: driverReducer,
     expert: expertReducer,
   },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });

@@ -26,6 +26,7 @@ module.exports = {
         primaryBG: "#F0F0F7",
         btnColor1: "#3C85FB",
         signBg: "#FF6E6E",
+        badgeBg: "#005859",
       },
       container: {
         center: true,
