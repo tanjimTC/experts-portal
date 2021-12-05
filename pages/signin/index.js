@@ -1,10 +1,10 @@
-import DeshboardPage from "../../components/subPages/DeshboardPage";
+import SignInPage from "../../components/subPages/SignInPage";
 import HomeLayout from "../../layouts/HomeLayout";
 
 const index = () => {
   return (
     <HomeLayout>
-      <DeshboardPage />
+      <SignInPage />
     </HomeLayout>
   );
 };

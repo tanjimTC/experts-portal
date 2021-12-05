@@ -4,6 +4,7 @@ import AboutUs from "../components/subPages/HomePage/AboutUs";
 import HeroSection from "../components/subPages/HomePage/HeroSection";
 import LegendSection from "../components/subPages/HomePage/LegendSection";
 import HomeLayout from "../layouts/HomeLayout/index";
+import { setLogedinuser } from "../redux/slices/authSlice";
 import { getAllExperts } from "../redux/slices/expertSlice";
 
 export default function Home() {
@@ -12,6 +13,7 @@ export default function Home() {
 
   useEffect(() => {
     dispatch(getAllExperts());
+    dispatch(setLogedinuser());
   }, [dispatch]);
 
   return (

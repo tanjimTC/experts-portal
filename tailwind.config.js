@@ -1,6 +1,10 @@
 module.exports = {
   mode: "jit",
-  purge: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
+  purge: [
+    "./pages/**/*.{js,ts,jsx,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx}",
+    "./layouts/**/*.{js,ts,jsx,tsx}",
+  ],
   darkMode: false, // or 'media' or 'className'
   theme: {
     extend: {
@@ -27,6 +31,7 @@ module.exports = {
         btnColor1: "#3C85FB",
         signBg: "#FF6E6E",
         badgeBg: "#005859",
+        successBg: "#0B9D77",
       },
       container: {
         center: true,

@@ -1,10 +1,12 @@
 import "react-datepicker/dist/react-datepicker.css";
 import { useState } from "react";
+import Router from "next/router";
 import AppointmentForm from "./AppointmentForm";
 import { dateFormat } from "../../../utils";
 import StripeCheckout from "react-stripe-checkout";
 import { useDispatch } from "react-redux";
 import { confirmBooking, makePayment } from "../../../redux/slices/expertSlice";
+import { addAppointment } from "../../../redux/slices/appointmentSlice";
 
 const AppointmentBook = ({ onCloseModal, name, id, email, rate }) => {
   const [startDate, setStartDate] = useState(new Date());
@@ -13,6 +15,7 @@ const AppointmentBook = ({ onCloseModal, name, id, email, rate }) => {
   const dispatch = useDispatch();
 
   const onSubmit = (data) => {
+    data.expertName = name;
     data.expertId = id;
     data.expertEmail = email;
     data.rate = rate;
@@ -38,6 +41,15 @@ const AppointmentBook = ({ onCloseModal, name, id, email, rate }) => {
             receipt_url: res.payload.receipt_url,
           })
         );
+        dispatch(
+          addAppointment({
+            ...res.meta.arg,
+            trxId: res.payload.balance_transaction,
+            receipt_url: res.payload.receipt_url,
+          })
+        );
+        onCloseModal();
+        Router.push("/success");
       }
     }
   };

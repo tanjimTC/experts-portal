@@ -10,6 +10,7 @@ const Index = ({ _id, userImage, name, email, about, category, rate }) => {
 
   const onOpenModal = () => setOpen(true);
   const onCloseModal = () => setOpen(false);
+
   return (
     <div className="bg-white flex flex-col justify-between rounded-md overflow-hidden relative shadow-md m-2">
       <div>
