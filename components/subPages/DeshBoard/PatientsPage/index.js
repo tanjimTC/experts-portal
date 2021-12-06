@@ -1,10 +1,9 @@
 import { useSelector } from "react-redux";
-import { doctorsData } from "../../../../Assets/Data/data";
 const PatientsPage = () => {
   const { allAppointment } = useSelector((state) => state.appointment);
   return (
     <div>
-      <p className="text-[#707EAE] text-2xl font-bold mb-4">Patients</p>
+      <p className="text-[#707EAE] text-2xl font-bold mb-4">Clients</p>
       <div className="flex-1 text-gray-700 text-center  px-2 py-5  rounded">
         <div className="lg:flex lg:items-center">
           <div className="flex flex-col">
@@ -36,7 +35,13 @@ const PatientsPage = () => {
                           scope="col"
                           className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center "
                         >
-                          Payment Info
+                          Status
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center "
+                        >
+                          Payment URL
                         </th>
                         <th
                           scope="col"
@@ -51,21 +56,21 @@ const PatientsPage = () => {
                         allAppointment.map((data, index) => (
                           <tr key={index}>
                             <td className="px-6 py-4 whitespace-nowrap">
-                              <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                              <span className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 {index + 1}
                               </span>
                             </td>
+
                             <td className="px-6 py-4 whitespace-nowrap">
-                              <div className="flex items-center">
-                                <div className="ml-4">
-                                  <div className="text-sm font-medium text-gray-900">
-                                    {data.userName}
-                                  </div>
-                                  <div className="text-sm text-gray-500">
-                                    {data.userEmail}
-                                  </div>
-                                </div>
-                              </div>
+                              <span className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {data.userName}
+                              </span>
+                            </td>
+
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <span className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {data.userEmail}
+                              </span>
                             </td>
 
                             <td className="px-6 py-4 whitespace-nowrap">
@@ -73,6 +78,7 @@ const PatientsPage = () => {
                                 paid
                               </span>
                             </td>
+
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                               <a
                                 href={data.receipt_url}
@@ -83,6 +89,7 @@ const PatientsPage = () => {
                                 Receipt URL
                               </a>
                             </td>
+
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                               <a href={data.receipt_url} className="">
                                 {data.date}

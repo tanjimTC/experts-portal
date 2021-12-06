@@ -17,7 +17,7 @@ export const verifyToken = createAsyncThunk("/verifyToken", async (arg) => {
   return data;
 });
 
-export const setLogedinuser = createAsyncThunk("setLogedinuser", () => {
+export const setLoggedInExpert = createAsyncThunk("setLoggedInExpert", () => {
   return localStorage.getItem("expertInfoLocal")
     ? JSON.parse(localStorage.getItem("expertInfoLocal"))
     : {};
@@ -40,7 +40,7 @@ const authSlice = createSlice({
       state.loggedInExpert = action.payload;
       state.loading = false;
     },
-    [setLogedinuser.fulfilled]: (state, action) => {
+    [setLoggedInExpert.fulfilled]: (state, action) => {
       state.loggedInExpert = action.payload;
       state.loading = false;
     },

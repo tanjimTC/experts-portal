@@ -19,7 +19,7 @@ const AppointmentBook = ({ onCloseModal, name, id, email, rate }) => {
     data.expertId = id;
     data.expertEmail = email;
     data.rate = rate;
-    const fomatedDate = dateFormat(startDate, "MM-DD-YYYY");
+    const fomatedDate = dateFormat(startDate, "DD-MM-YYYY");
     data.date = fomatedDate;
     setAppointmentInfo(data);
     setDisplayPayment(true);
