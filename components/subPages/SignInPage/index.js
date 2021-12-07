@@ -45,7 +45,7 @@ const SignInPage = () => {
           localStorage.setItem("expert_token", data.data.token);
           setProcessing(false);
         } else {
-          toast.error(data, {
+          toast.error(data.message, {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
@@ -54,6 +54,7 @@ const SignInPage = () => {
             draggable: true,
             progress: undefined,
           });
+          setProcessing(false);
         }
       })
       .catch((err) => console.log(err));

@@ -1,6 +1,18 @@
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getAppointmentByEmail } from "../../../../redux/slices/appointmentSlice";
+import { setLoggedInExpert } from "../../../../redux/slices/authSlice";
 const PatientsPage = () => {
+  const dispatch = useDispatch();
+
   const { allAppointment } = useSelector((state) => state.appointment);
+
+  useEffect(() => {
+    dispatch(setLoggedInExpert());
+    const email = JSON.parse(localStorage.getItem("expertInfoLocal")).email;
+    dispatch(getAppointmentByEmail(email));
+  }, [dispatch]);
+
   return (
     <div>
       <p className="text-[#707EAE] text-2xl font-bold mb-4">Clients</p>

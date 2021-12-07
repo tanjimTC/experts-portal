@@ -19,7 +19,7 @@ const withAuth = (WrappedComponent) => {
       const accessToken = localStorage.getItem("expert_token");
       // if no accessToken was found,then we redirect to "/" page.
       if (!accessToken) {
-        Router.replace("/");
+        Router.replace("/signin");
       } else {
         // we call the api that verifies the token.
 
@@ -42,9 +42,9 @@ const withAuth = (WrappedComponent) => {
         if (isLoggedIn()) {
           setVerified(true);
         } else {
-          // If the token was fraud we first remove it from localStorage and then redirect to "/"
+          // If the token was fraud we first remove Consultancy  from localStorage and then redirect to "/"
           localStorage.removeItem("expert_token");
-          Router.replace("/");
+          Router.replace("/signin");
         }
       }
     };

@@ -1,5 +1,5 @@
 .footer-container {
-  background: #4f4c87;
+  background: #161928;
   @apply text-white font-primary py-10 px-5 lg:px-28 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4;
 }
 

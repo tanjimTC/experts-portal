@@ -5,12 +5,12 @@ const Features = () => {
     <div className="flex flex-col mb-10 items-start">
       <div className="flex-grow">
         <p className="text-lg title-font font-bold mb-4">
-          Best IT Company In The World
+          Best Consultancy Company In The World
         </p>
         <ul className={"list-disc"}>
           <div className={"ml-5 text-left"}>
             <li className={"mb-2 mt-1 text-lg font-normal text-gray-600"}>
-              Perfect for IT Solutions and Services Company
+              Perfect for Consultancy Solutions and Services Company
             </li>
             <li className={"mb-2 mt-1 text-lg font-normal text-gray-600"}>
               Provided by experts to help challenge critical activities

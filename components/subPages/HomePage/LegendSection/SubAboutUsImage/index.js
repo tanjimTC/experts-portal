@@ -6,7 +6,7 @@ const SubAboutUsImage = () => {
       <img
         alt="feature"
         className="object-cover object-center h-full w-full p-1 md:p-3"
-        src="/images/homepage/NoPath.png"
+        src="/images/homepage/NoPath2.png"
       />
     </div>
   );

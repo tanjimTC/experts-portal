@@ -18,24 +18,10 @@ export const addAppointment = createAsyncThunk(
 );
 
 export const getAppointmentByEmail = createAsyncThunk(
-  "/fetchAppointmentById",
+  "/fetchAppointmentByEmail",
   async (arg) => {
-    const emailData = {
-      expertEmail: arg,
-    };
-    console.log("i was called", emailData);
     const { data } = await AxiosConfig.get(
       `/appointment/booked-appointments/${arg}`
-    );
-    return data.data;
-  }
-);
-
-export const getAppointmentByDate = createAsyncThunk(
-  "/fetchAppointmentById",
-  async (arg) => {
-    const { data } = await AxiosConfig.get(
-      `/appointment/booked-appointments/date/${arg}`
     );
     return data.data;
   }
@@ -45,13 +31,13 @@ const appointmentSlice = createSlice({
   name: "appointment",
   initialState: {
     loading: true,
-    allAppointment: [],
     AppointmentInformation: {},
+    allAppointment: [],
     appointmentByDate: [],
   },
   reducers: {
-    appointmentInfo: (state, action) => {
-      state.AppointmentInformation = action.payload;
+    appointmentInfoByDate: (state, action) => {
+      state.appointmentByDate = action.payload;
     },
   },
   extraReducers: {
@@ -59,14 +45,10 @@ const appointmentSlice = createSlice({
       state.allAppointment = action.payload;
       state.loading = false;
     },
-    [getAppointmentByDate.fulfilled]: (state, action) => {
-      state.appointmentByDate = action.payload;
-      state.loading = false;
-    },
   },
 });
 
-export const { appointmentInfo } = appointmentSlice.actions;
+export const { appointmentInfoByDate } = appointmentSlice.actions;
 
 export default appointmentSlice.reducer;
 

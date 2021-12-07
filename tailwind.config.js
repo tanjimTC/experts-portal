@@ -20,7 +20,7 @@ module.exports = {
         footerColor: "#161927",
         overlay: "#050D33",
         circleColor: "#FEF8F1",
-        sectionBG: "#4F4C87",
+        sectionBG: "#2A2852",
         connectedBG: "#001e68",
         aboutusCardBG: "#fef8f1",
         heroBG: "#ED8936",

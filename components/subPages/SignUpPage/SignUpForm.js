@@ -26,14 +26,35 @@ const SignUpForm = () => {
 
   const onSubmit = async (data) => {
     setProcessing(true);
-    const uploadedPhoto = await uploadImages(userImage);
-    data.userImage = uploadedPhoto;
-    console.log("object", data);
+    const checkEmail = {
+      email: data.email,
+    };
+    AxiosConfig.post("/auth/email", checkEmail).then(async (res) => {
+      if (res.data.success) {
+        const uploadedPhoto = await uploadImages(userImage);
+        data.userImage = uploadedPhoto;
+        console.log("object", data);
 
-    AxiosConfig.post("/auth/signup", data)
-      .then((json) => {
-        console.log("json", json);
-        toast.success("🦄 Accout created successfully!", {
+        AxiosConfig.post("/auth/signup", data)
+          .then((json) => {
+            console.log("json", json);
+            toast.success("🦄 Accout created successfully!", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+            setUserImage("");
+            reset();
+            setProcessing(false);
+            dispatch(getAllExperts());
+          })
+          .catch((err) => console.log(err));
+      } else {
+        toast.error("This email already registered!", {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -42,12 +63,9 @@ const SignUpForm = () => {
           draggable: true,
           progress: undefined,
         });
-        setUserImage("");
-        reset();
         setProcessing(false);
-        dispatch(getAllExperts());
-      })
-      .catch((err) => console.log(err));
+      }
+    });
   };
   return (
     <form
@@ -73,7 +91,7 @@ const SignUpForm = () => {
               placeholder="Name"
               className="h-10 py-1 pr-3 w-full border-b focus:outline-none border-gray-600"
             />
-            <Error message={errors.firstName?.message} />
+            <Error message={errors.name?.message} />
           </div>
           <div className="w-full md:w-1/2 mb-1 pl-0 md:pl-2">
             <select

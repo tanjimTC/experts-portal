@@ -9,7 +9,7 @@ const FeatureTitle = () => {
         </p>
         <p className="text-2xl md:text-4xl font-bold">
           Leading The Way In <br />
-          Creative IT Solution
+          Creative Consultancy solution
         </p>
       </div>
     </div>

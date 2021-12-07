@@ -1,11 +1,10 @@
 import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
 import { useState } from "react";
 import { dateFormat } from "../../../../utils";
-import { doctorsData } from "../../../../Assets/Data/data";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAppointmentByDate } from "../../../../redux/slices/appointmentSlice";
+import { appointmentInfoByDate } from "../../../../redux/slices/appointmentSlice";
+import AxiosConfig from "../../../../AxiosConfig/AxiosConfig";
 
 const AppointmentsPage = () => {
   const dispatch = useDispatch();
@@ -16,13 +15,24 @@ const AppointmentsPage = () => {
   };
 
   useEffect(() => {
-    dispatch(getAppointmentByDate(dateFormat(value)));
+    const email = JSON.parse(localStorage.getItem("expertInfoLocal")).email;
+    const data = {
+      date: dateFormat(value),
+      email: email,
+    };
+    AxiosConfig.post("appointment/booked-appointments/date", data).then(
+      (res) => {
+        dispatch(appointmentInfoByDate(res.data?.data));
+      }
+    );
   }, [value, dispatch]);
 
   return (
     <div className="">
       <p className="text-[#707EAE] text-2xl font-bold mb-4">Appoinments</p>
-
+      <p className="text-[#707EAE] text-sm font-bold mb-4 italic">
+        Available Appointment on {dateFormat(value)}
+      </p>
       <div className=" mt-5 mx-auto px-2">
         <div className="md:flex">
           <div className="flex-1 text-gray-700 text-center  px-5 py-5 m-2 rounded">
@@ -58,13 +68,13 @@ const AppointmentsPage = () => {
                               scope="col"
                               className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center "
                             >
-                              Status
+                              Phone
                             </th>
                             <th
                               scope="col"
                               className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center "
                             >
-                              Role
+                              Status
                             </th>
                           </tr>
                         </thead>
@@ -82,12 +92,18 @@ const AppointmentsPage = () => {
                                   {data.userPhone}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                  Admin
+                                  <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                    Paid
+                                  </span>
                                 </td>
                               </tr>
                             ))
                           ) : (
-                            <h1>No appointment for Today!</h1>
+                            <tr className="text-center ">
+                              <td className="p-4">
+                                No appointment for {dateFormat(value)}!
+                              </td>
+                            </tr>
                           )}
                         </tbody>
                       </table>

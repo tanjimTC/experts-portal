@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import Error from "./Error";
 import { validationSchema } from "./validationSchema ";
 import { yupResolver } from "@hookform/resolvers/yup";
+import moment from "moment";
 
 const AppointmentForm = ({
   onSubmit,
@@ -55,6 +56,7 @@ const AppointmentForm = ({
             <DatePicker
               selected={startDate}
               onChange={(date) => setStartDate(date)}
+              minDate={moment().toDate()}
               className="h-10 py-1 pr-3 w-full"
             />
           </div>

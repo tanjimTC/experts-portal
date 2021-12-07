@@ -2,45 +2,30 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoggedInExpert } from "../../../../redux/slices/authSlice";
 import { getAppointmentByEmail } from "../../../../redux/slices/appointmentSlice";
-import moment from "moment";
 import { dateFormat } from "../../../../utils";
 
 const DeshboardPage = () => {
   const dispatch = useDispatch();
   const { loggedInExpert } = useSelector((state) => state.auth);
   const { allAppointment } = useSelector((state) => state.appointment);
+
   useEffect(() => {
     dispatch(setLoggedInExpert());
     const email = JSON.parse(localStorage.getItem("expertInfoLocal")).email;
     dispatch(getAppointmentByEmail(email));
   }, [dispatch]);
 
-  // const getAppointment = () => {
-  //   dispatch(getAppointmentByEmail(loggedInExpert.email));
-  // };
-
-  // if (loggedInExpert) {
-  //   getAppointment();
-  // }
   const date = allAppointment?.filter((appointment) => {
     return appointment.date == dateFormat(new Date());
   });
 
-  function removeDuplicatesBy(keyFn, array) {
-    var mySet = new Set();
-    return array.filter(function (x) {
-      var key = keyFn(x),
-        isNew = !mySet.has(key);
-      if (isNew) mySet.add(key);
-      return isNew;
-    });
-  }
-
-  const withoutDuplicates = removeDuplicatesBy(
-    (allAppointment) => allAppointment.userEmil,
-    allAppointment
-  );
-  console.log(withoutDuplicates); // [{"color": "red"}, {"color": "blue"}]
+  let result = allAppointment?.filter((e, i) => {
+    return (
+      allAppointment.findIndex((x) => {
+        return x.userEmail == e.userEmail;
+      }) == i
+    );
+  });
 
   return (
     <>
@@ -83,13 +68,13 @@ const DeshboardPage = () => {
           {/* <img src="/images/graph.svg" alt="" /> */}
         </div>
 
-        <div className="bg-white p-6 inline-flex justify-between rounded-2xl mr-5 items-center  bg-gradient-to-r from-[#868CFF] to-[#4318FF] w-full">
+        <div className="bg-white p-6 inline-flex justify-between rounded-2xl mr-5 items-center  bg-gradient-to-r from-[#777deb] to-[#4318FF] w-full">
           <div className="flex flex-col mr-6">
             <span className="text-white text-base font-bold">
               Total Clients
             </span>
             <span className="text-white font-bold text-2xl">
-              {withoutDuplicates?.length}
+              {result?.length}
             </span>
           </div>
           <span>
@@ -99,7 +84,7 @@ const DeshboardPage = () => {
       </div>
 
       <div className="moreInformation mb-5">
-        <div className="w-3/5 flex justify-between bg-gradient-to-r from-[#7178fd] to-[#4318FF]  rounded-2xl py-7 px-8">
+        <div className="w-3/5 flex justify-between bg-gradient-to-r from-[#6067e9] to-[#4318FF]  rounded-2xl py-7 px-8">
           <div className="text-white">
             <p className=" text-sm font-medium">Total Earnings</p>
             <p className=" text-4xl font-bold">
@@ -126,7 +111,7 @@ const DeshboardPage = () => {
       </div>
 
       <div className="moreInformation">
-        <div className="w-3/5 flex justify-between bg-gradient-to-r from-[#7178fd] to-[#4318FF]  rounded-2xl py-7 px-8">
+        <div className="w-3/5 flex justify-between bg-gradient-to-r from-[#4318FF] to-[#565de9]   rounded-2xl py-7 px-8">
           <span className="bg-gradient-to-r from-[#868CFF] to-[#5636e6] flex justify-center items-center rounded-full h-14 w-14 mr-4 shadow-xl border border-indigo-200">
             <svg
               width="29"

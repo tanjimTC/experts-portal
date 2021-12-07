@@ -51,13 +51,13 @@ const Header = () => {
               <Link href="/services"> Services </Link>
             </li>
             <li>
-              <Link href="/dashboard"> Deshboard </Link>
-            </li>
-            <li>
-              <Link href="/blogs">Blog</Link>
-            </li>
-            <li>
               <Link href="/contact-us">Contact Us</Link>
+            </li>
+            <li>
+              <Link href="/policies">Legal</Link>
+            </li>
+            <li>
+              <Link href="/dashboard"> Deshboard </Link>
             </li>
           </ul>
         </div>
@@ -148,10 +148,10 @@ const Header = () => {
           <li>
             <div className={style["header-email-mobile"]}>
               <a
-                href="mailto:info@algosolver.com?subject=information"
+                href="mailto:info@experts portal?subject=information"
                 className="mb-3 flex"
               >
-                <FaEnvelope style={{ display: "inline" }} /> info@algosolver.com
+                <FaEnvelope style={{ display: "inline" }} /> info@experts portal
               </a>
 
               <a href="tel:+1-347-849-7449" className={"flex"}>

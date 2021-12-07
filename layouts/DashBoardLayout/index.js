@@ -3,14 +3,24 @@ import { IoIosNotifications, IoIosPeople } from "react-icons/io";
 import { RiDashboardFill } from "react-icons/ri";
 import { FiLogOut } from "react-icons/fi";
 import Link from "next/link";
+import Router from "next/router";
 
 const DashboardLayout = ({ children }) => {
+  const handleLogOut = () => {
+    localStorage.removeItem("expert_token");
+    localStorage.removeItem("expertInfoLocal");
+    Router.push("/");
+  };
   return (
     <div className="bg-[#F4F7FE] h-screen w-screen flex">
       <div className="sidebar w-80 bg-white h-screen px-9 py-12 overflow-hidden">
-        <div className="text-[#4318FF] flex flex-col pl-3">
-          <span className="text-2xl uppercase font-extrabold">Experts</span>
-          <span className="text-xs uppercase font-bold">Portal</span>
+        <div>
+          <Link href="/" passHref={true}>
+            <a className="text-[#4318FF] flex flex-col pl-3">
+              <span className="text-2xl uppercase font-extrabold">Experts</span>
+              <span className="text-xs uppercase font-bold">Portal</span>
+            </a>
+          </Link>
         </div>
         {/* MENU */}
         <div className="flex flex-col justify-between h-full ">
@@ -62,12 +72,13 @@ const DashboardLayout = ({ children }) => {
           <div className="py-12">
             <ul>
               <li className="rounded-md text-base font-medium text-gray-500 hover:text-white  hover:bg-indigo-600">
-                <Link href="/logout" passHref={true}>
-                  <a className="w-full h-full flex p-3 ">
-                    <FiLogOut className="w-6 h-6 mr-3" />
-                    <span>Log Out</span>
-                  </a>
-                </Link>
+                <button
+                  className="w-full h-full flex p-3 "
+                  onClick={handleLogOut}
+                >
+                  <FiLogOut className="w-6 h-6 mr-3" />
+                  <span>Log Out</span>
+                </button>
               </li>
             </ul>
           </div>
