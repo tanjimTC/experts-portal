@@ -43,7 +43,7 @@ const Index = () => {
           onSubmit={handleSubmit(onSubmit)}
         >
           <h1 className="font-serif text-2xl md:text-3xl leading-tight text-center font-normal text-white mb-8">
-            Find your dream accommodation today
+            Find the best experts who can help you!
           </h1>
 
           <div className="flex flex-wrap items-start mx-auto">

@@ -1,4 +1,4 @@
-import React from "react";
+import Link from "next/link";
 
 const Privacy = () => {
   return (
@@ -6,9 +6,9 @@ const Privacy = () => {
       <div className="mt-8">
         <p className="text-gray-500 text-sm text-center underline">
           Already have an account,
-          <a href="#" className="text-blue-700 hover:underline">
+          <Link href="/signin" className="text-blue-700 hover:underline">
             Sign In
-          </a>
+          </Link>
         </p>
       </div>
       <div className="mx-auto mt-8">
