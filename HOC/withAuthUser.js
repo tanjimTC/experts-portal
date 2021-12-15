@@ -4,7 +4,7 @@ import jwt_decode from "jwt-decode";
 
 // import verifyToken from "services/verifyToken";
 
-const withAuth = (WrappedComponent) => {
+const withAuthUser = (WrappedComponent) => {
   return (props) => {
     const Router = useRouter();
     const [verified, setVerified] = useState(false);
@@ -14,7 +14,7 @@ const withAuth = (WrappedComponent) => {
     }, []);
 
     const checkToken = async () => {
-      const accessToken = localStorage.getItem("expert_token");
+      const accessToken = localStorage.getItem("user_token");
       // if no accessToken was found,then we redirect to "/" page.
       if (!accessToken) {
         Router.replace("/signin");
@@ -26,7 +26,7 @@ const withAuth = (WrappedComponent) => {
         // console.log("token", data);
 
         const isLoggedIn = () => {
-          const token = localStorage.getItem("expert_token");
+          const token = localStorage.getItem("user_token");
           if (!token) {
             return false;
           }
@@ -41,7 +41,7 @@ const withAuth = (WrappedComponent) => {
           setVerified(true);
         } else {
           // If the token was fraud we first remove Consultancy  from localStorage and then redirect to "/"
-          localStorage.removeItem("expert_token");
+          localStorage.removeItem("user_token");
           Router.replace("/signin");
         }
       }
@@ -55,4 +55,4 @@ const withAuth = (WrappedComponent) => {
   };
 };
 
-export default withAuth;
+export default withAuthUser;

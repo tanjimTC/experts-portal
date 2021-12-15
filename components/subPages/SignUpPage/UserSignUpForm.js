@@ -1,41 +1,35 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { validationSchema } from "./validationSchema";
+import { validationSchema2 } from "./validationSchema2";
 import Error from "./Error";
-import ImageUpload from "../../Input/ImageUpload";
 import AxiosConfig from "../../../AxiosConfig/AxiosConfig";
-import { uploadImages } from "../../Image/ImageUploadCloud";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ClipLoader from "react-spinners/ClipLoader";
-import { useDispatch } from "react-redux";
 
-const SignUpForm = () => {
-  const [userImage, setUserImage] = useState("");
-  const [processing, setProcessing] = useState(false);
-  const dispatch = useDispatch();
+const UserSignUpForm = () => {
+  const [processing2, setProcessing2] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
   } = useForm({
-    resolver: yupResolver(validationSchema),
+    resolver: yupResolver(validationSchema2),
   });
 
-  const onSubmit = async (data) => {
-    setProcessing(true);
+  const onSubmit2 = async (data) => {
+    console.log("data", data);
+    setProcessing2(true);
     const checkEmail = {
       email: data.email,
     };
-    AxiosConfig.post("/auth/email", checkEmail).then(async (res) => {
+    AxiosConfig.post("/auth/user/email", checkEmail).then(async (res) => {
       if (res.data.success) {
-        const uploadedPhoto = await uploadImages(userImage);
-        data.userImage = uploadedPhoto;
         console.log("object", data);
 
-        AxiosConfig.post("/auth/signup", data)
+        AxiosConfig.post("/auth/user/signup", data)
           .then((json) => {
             console.log("json", json);
             toast.success("🦄 Accout created successfully!", {
@@ -47,10 +41,8 @@ const SignUpForm = () => {
               draggable: true,
               progress: undefined,
             });
-            setUserImage("");
             reset();
-            setProcessing(false);
-            dispatch(getAllExperts());
+            setProcessing2(false);
           })
           .catch((err) => console.log(err));
       } else {
@@ -63,88 +55,38 @@ const SignUpForm = () => {
           draggable: true,
           progress: undefined,
         });
-        setProcessing(false);
+        setProcessing2(false);
       }
     });
   };
   return (
     <form
       className="flex flex-col items-center"
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(onSubmit2)}
     >
       <ToastContainer />
       <div className="mt-6 ">
-        <div className="mb-1">
-          <ImageUpload
-            onOutput={(e) => console.log(e.target)}
-            name={"profile"}
-            handleChange={(e) => setUserImage(e.target.files[0])}
-            userImg={userImage}
+        <div className="flex flex-wrap ">
+          <input
+            type="text"
+            name="name"
+            {...register("name", { required: true })}
+            placeholder="Name"
+            className="h-10 py-1 pr-3 w-full border-b focus:outline-none border-gray-600"
           />
-        </div>
-        <div className="flex flex-wrap ">
-          <div className="w-full md:w-1/2 mb-1 pr-0 md:pr-2">
-            <input
-              type="text"
-              name="firstName"
-              {...register("name", { required: true })}
-              placeholder="Name"
-              className="h-10 py-1 pr-3 w-full border-b focus:outline-none border-gray-600"
-            />
-            <Error message={errors.name?.message} />
-          </div>
-          <div className="w-full md:w-1/2 mb-1 pl-0 md:pl-2">
-            <select
-              className="h-10 py-1 pr-3 w-full border-b border-gray-600 focus:outline-none"
-              {...register("category")}
-            >
-              <option>Economics</option>
-              <option>Financial</option>
-              <option>Engineering </option>
-              <option>Health</option>
-            </select>
-            <Error message={errors.category?.message} />
-          </div>
+          <Error message={errors.name?.message} />
         </div>
 
         <div className="flex flex-wrap ">
-          <div className="w-full md:w-1/2 mb-1 pr-0 md:pr-2">
-            <input
-              type="text"
-              name="email"
-              {...register("email", { required: true })}
-              placeholder="Email"
-              className="h-10 py-1 pr-3 w-full border-b focus:outline-none border-gray-600"
-            />
-            <Error message={errors.email?.message} />
-          </div>
-
-          <div className="w-full md:w-1/2 mb-1 pl-0 md:pl-2">
-            <select
-              className="h-10 py-1 pr-3 w-full border-b border-gray-600 focus:outline-none"
-              {...register("rate")}
-            >
-              <option>500</option>
-              <option>1000</option>
-              <option>1500</option>
-              <option>2000</option>
-            </select>
-            <Error message={errors.rate?.message} />
-          </div>
+          <input
+            type="text"
+            name="email"
+            {...register("email", { required: true })}
+            placeholder="Email"
+            className="h-10 py-1 pr-3 w-full border-b focus:outline-none border-gray-600"
+          />
+          <Error message={errors.email?.message} />
         </div>
-
-        <div className="border-b border-gray-600 border-solid   mb-1">
-          <div className="flex-1">
-            <textarea
-              type="text"
-              name="about"
-              {...register("about", { required: true })}
-              placeholder="About"
-              className="h-10 py-1 pr-3 w-full focus:outline-none"
-            />
-          </div>
-        </div>
-        <Error message={errors.about?.message} />
 
         <div className="border-b border-gray-600 border-solid   mb-1">
           <div className="flex-1">
@@ -194,14 +136,14 @@ const SignUpForm = () => {
           <button
             type="submit"
             className={` ${
-              processing
+              processing2
                 ? "bg-gray-500 cursor-not-allowed"
                 : "bg-sectionBG cursor-pointer"
             }  text-white text-base py-2 px-4 md:px-8  transition-colors duration-300 rounded-md flex items-center mx-auto text-center`}
-            disabled={processing}
+            disabled={processing2}
           >
-            {!processing ? "Submit" : "Loading"}
-            {processing ? (
+            {!processing2 ? "Submit" : "Loading"}
+            {processing2 ? (
               <ClipLoader
                 className="ml-2"
                 color={"#fff"}
@@ -216,4 +158,4 @@ const SignUpForm = () => {
   );
 };
 
-export default SignUpForm;
+export default UserSignUpForm;

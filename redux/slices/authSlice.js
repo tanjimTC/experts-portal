@@ -23,16 +23,27 @@ export const setLoggedInExpert = createAsyncThunk("setLoggedInExpert", () => {
     : {};
 });
 
+export const setLoggedInUser = createAsyncThunk("setLoggedInUser", () => {
+  return localStorage.getItem("userInfoLocal")
+    ? JSON.parse(localStorage.getItem("userInfoLocal"))
+    : {};
+});
+
 const authSlice = createSlice({
   name: "auth",
   initialState: {
     loading: true,
     loggedInExpert: {},
+    loggedInUser: {},
   },
   reducers: {
     loggedInExpertInfo: (state, action) => {
       state.loggedInExpert = action.payload;
       localStorage.setItem("expertInfoLocal", JSON.stringify(action.payload));
+    },
+    loggedInUserInfo: (state, action) => {
+      state.loggedInUser = action.payload;
+      localStorage.setItem("userInfoLocal", JSON.stringify(action.payload));
     },
   },
   extraReducers: {
@@ -44,10 +55,14 @@ const authSlice = createSlice({
       state.loggedInExpert = action.payload;
       state.loading = false;
     },
+    [setLoggedInUser.fulfilled]: (state, action) => {
+      state.loggedInUser = action.payload;
+      state.loading = false;
+    },
   },
 });
 
-export const { loggedInExpertInfo } = authSlice.actions;
+export const { loggedInExpertInfo, loggedInUserInfo } = authSlice.actions;
 
 export default authSlice.reducer;
 

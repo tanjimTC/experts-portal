@@ -2,14 +2,35 @@ import { AiFillClockCircle, AiFillDollarCircle } from "react-icons/ai";
 import { BsFillPersonFill } from "react-icons/bs";
 import "react-responsive-modal/styles.css";
 import { Modal } from "react-responsive-modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AppointmentBook from "../../subPages/AppointmentBook";
+import jwt_decode from "jwt-decode";
+import { useRouter } from "next/router";
 
 const Index = ({ _id, userImage, name, email, about, category, rate }) => {
   const [open, setOpen] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const onOpenModal = () => setOpen(true);
   const onCloseModal = () => setOpen(false);
+
+  const router = useRouter();
+
+  useEffect(() => {
+    const token = localStorage.getItem("user_token");
+    if (!token) {
+      setLoggedIn(false);
+    } else {
+      const decodedToken = jwt_decode(token);
+      const currentTime = new Date().getTime() / 1000;
+
+      if (decodedToken.exp > currentTime) {
+        setLoggedIn(true);
+      } else {
+        setLoggedIn(false);
+      }
+    }
+  }, []);
 
   return (
     <div className="bg-white flex flex-col justify-between rounded-md overflow-hidden relative shadow-md m-2">
@@ -43,12 +64,21 @@ const Index = ({ _id, userImage, name, email, about, category, rate }) => {
         </div>
       </div>
       <div className="p-4">
-        <button
-          onClick={onOpenModal}
-          className="text-white bg-green-400 p-4 rounded-md w-full uppercase"
-        >
-          Book Appointment
-        </button>
+        {loggedIn ? (
+          <button
+            onClick={onOpenModal}
+            className="text-white bg-green-400 p-4 rounded-md w-full uppercase"
+          >
+            Book Appointment
+          </button>
+        ) : (
+          <button
+            onClick={() => router.push("/signin")}
+            className="text-white bg-green-400 p-4 rounded-md w-full uppercase"
+          >
+            Log in to Book Appointment
+          </button>
+        )}
       </div>
       <div className="absolute top-0 right-0 mt-4 mr-4 bg-green-400 text-white rounded-full pt-1 pb-1 pl-4 pr-5 text-xs uppercase">
         <span>available</span>

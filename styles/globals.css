@@ -12,40 +12,17 @@
   background-color: rgba(52, 62, 105, 0.3);
 }
 
-/* ::-webkit-scrollbar {
-  width: 20px;
+/* Toggle A */
+input:checked ~ .dot {
+  transform: translateX(100%);
+  background-color: #2F2E41;
 }
 
-html {
-  scroll-behavior: smooth;
+/* Toggle B */
+input:checked ~ .dot {
+  transform: translateX(100%);
+  background-color: #2F2E41;
 }
-
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(
-    124deg,
-    rgba(237, 137, 54, 1) 18%,
-    rgba(247, 0, 55, 1) 65%
-  );
-  border-radius: 20px;
-  -webkit-border-radius: 20px;
-  -moz-border-radius: 20px;
-  -ms-border-radius: 20px;
-  -o-border-radius: 20px;
-}
-
-::-webkit-scrollbar-track {
-  background-image: linear-gradient(
-    to right,
-    #222,
-    #333,
-    #444,
-    #555,
-    #444,
-    #333,
-    #222
-  );
-  border: 1px solid #888;
-} */
 
 
 

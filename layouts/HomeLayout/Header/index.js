@@ -12,16 +12,25 @@ import { BsReverseLayoutTextWindowReverse } from "react-icons/bs";
 import { BsBriefcase } from "react-icons/bs";
 import { ImCross } from "react-icons/im";
 import { FaEnvelope, FaPhoneAlt } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setLoggedInExpert,
+  setLoggedInUser,
+} from "../../../redux/slices/authSlice";
 
 const Header = () => {
   const [pos, setPos] = useState(0);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const { loggedInExpert, loggedInUser } = useSelector((state) => state.auth);
 
   const router = useRouter();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     window.onscroll = (e) => setPos(window.pageYOffset);
-  }, []);
+    dispatch(setLoggedInExpert());
+    dispatch(setLoggedInUser());
+  }, [dispatch]);
 
   return (
     <>
@@ -53,12 +62,24 @@ const Header = () => {
             <li>
               <Link href="/contact-us">Contact Us</Link>
             </li>
-            <li>
-              <Link href="/policies">Legal</Link>
-            </li>
-            <li>
-              <Link href="/dashboard"> Deshboard </Link>
-            </li>
+            {loggedInUser.name ? (
+              <li>
+                <Link href="/user-dashboard">User Deshboard </Link>
+              </li>
+            ) : (
+              <li>
+                <Link href="/policies">Legal</Link>
+              </li>
+            )}
+            {loggedInExpert.name ? (
+              <li>
+                <Link href="/dashboard">Expert Deshboard </Link>
+              </li>
+            ) : (
+              <li>
+                <Link href="/signin"> Login </Link>
+              </li>
+            )}
           </ul>
         </div>
 
@@ -120,14 +141,27 @@ const Header = () => {
               Services
             </span>
           </li>
-          <li>
-            <BsReverseLayoutTextWindowReverse
-              className={style["header-mobile-content-menu-li-icon"]}
-            />
-            <span className={style["header-mobile-content-menu-li-text"]}>
-              Deshboard
-            </span>
-          </li>
+          {loggedInExpert.name ? (
+            <li>
+              <BsReverseLayoutTextWindowReverse
+                className={style["header-mobile-content-menu-li-icon"]}
+              />
+
+              <span className={style["header-mobile-content-menu-li-text"]}>
+                Deshboard
+              </span>
+            </li>
+          ) : (
+            <li>
+              <BsReverseLayoutTextWindowReverse
+                className={style["header-mobile-content-menu-li-icon"]}
+              />
+
+              <span className={style["header-mobile-content-menu-li-text"]}>
+                Login
+              </span>
+            </li>
+          )}
           <li onClick={() => router.push("/blogs")}>
             <BsBriefcase
               className={style["header-mobile-content-menu-li-icon"]}

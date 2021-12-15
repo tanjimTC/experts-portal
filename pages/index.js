@@ -8,7 +8,7 @@ import HeroSection from "../components/subPages/HomePage/HeroSection";
 import LegendSection from "../components/subPages/HomePage/LegendSection";
 import OurServices from "../components/subPages/HomePage/OurServices";
 import HomeLayout from "../layouts/HomeLayout/index";
-import { setLoggedInExpert } from "../redux/slices/authSlice";
+import { setLoggedInExpert, setLoggedInUser } from "../redux/slices/authSlice";
 import { getAllExperts } from "../redux/slices/expertSlice";
 
 export default function Home() {
@@ -18,6 +18,7 @@ export default function Home() {
   useEffect(() => {
     dispatch(getAllExperts());
     dispatch(setLoggedInExpert());
+    dispatch(setLoggedInUser());
   }, [dispatch]);
 
   return (

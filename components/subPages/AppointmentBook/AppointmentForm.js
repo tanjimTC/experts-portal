@@ -10,6 +10,9 @@ import Error from "./Error";
 import { validationSchema } from "./validationSchema ";
 import { yupResolver } from "@hookform/resolvers/yup";
 import moment from "moment";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { setLoggedInUser } from "../../../redux/slices/authSlice";
 
 const AppointmentForm = ({
   onSubmit,
@@ -27,6 +30,14 @@ const AppointmentForm = ({
     resolver: yupResolver(validationSchema),
   });
 
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setLoggedInUser());
+  }, [dispatch]);
+
+  const { loggedInUser } = useSelector((state) => state.auth);
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <h2 className="text-2xl text-gray-800 text-center">
@@ -43,6 +54,7 @@ const AppointmentForm = ({
               {...register("userName", { required: true })}
               placeholder="Name"
               className="h-10 py-1 pr-3 w-full"
+              defaultValue={loggedInUser.name}
             />
           </div>
         </div>
@@ -67,12 +79,15 @@ const AppointmentForm = ({
             <BsEnvelopeFill className="text-gray-500" />
           </div>
           <div className="flex-1">
-            <input
-              type="text"
-              {...register("userEmail", { required: true })}
-              placeholder="E-mail"
-              className="h-10 py-1 pr-3 w-full"
-            />
+            <fieldset disabled>
+              <input
+                type="text"
+                {...register("userEmail", { required: false })}
+                placeholder="E-mail"
+                className="h-10 py-1 pr-3 w-full"
+                value={loggedInUser.email}
+              />
+            </fieldset>
           </div>
         </div>
         <Error message={errors.userEmail?.message} />
