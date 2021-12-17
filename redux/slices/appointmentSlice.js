@@ -26,6 +26,15 @@ export const getAppointmentByEmail = createAsyncThunk(
     return data.data;
   }
 );
+export const getAppointmentByClientEmail = createAsyncThunk(
+  "/fetchAppointmentByClientEmail",
+  async (arg) => {
+    const { data } = await AxiosConfig.get(
+      `/appointment/booked-appointments/client/${arg}`
+    );
+    return data.data;
+  }
+);
 
 const appointmentSlice = createSlice({
   name: "appointment",
@@ -33,6 +42,7 @@ const appointmentSlice = createSlice({
     loading: true,
     AppointmentInformation: {},
     allAppointment: [],
+    allAppointmentCleint: [],
     appointmentByDate: [],
   },
   reducers: {
@@ -43,6 +53,10 @@ const appointmentSlice = createSlice({
   extraReducers: {
     [getAppointmentByEmail.fulfilled]: (state, action) => {
       state.allAppointment = action.payload;
+      state.loading = false;
+    },
+    [getAppointmentByClientEmail.fulfilled]: (state, action) => {
+      state.allAppointmentCleint = action.payload;
       state.loading = false;
     },
   },

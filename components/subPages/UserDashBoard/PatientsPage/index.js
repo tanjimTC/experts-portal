@@ -1,21 +1,23 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAppointmentByEmail } from "../../../../redux/slices/appointmentSlice";
+import { getAppointmentByClientEmail } from "../../../../redux/slices/appointmentSlice";
 import { setLoggedInExpert } from "../../../../redux/slices/authSlice";
 const PatientsPage = () => {
   const dispatch = useDispatch();
 
-  const { allAppointment } = useSelector((state) => state.appointment);
+  const { allAppointmentCleint } = useSelector((state) => state.appointment);
 
   useEffect(() => {
     dispatch(setLoggedInExpert());
     const email = JSON.parse(localStorage.getItem("userInfoLocal")).email;
-    dispatch(getAppointmentByEmail(email));
+    dispatch(getAppointmentByClientEmail(email));
   }, [dispatch]);
 
   return (
     <div>
-      <p className="text-[#707EAE] text-2xl font-bold mb-4">Clients</p>
+      <p className="text-[#707EAE] text-2xl font-bold mb-4">
+        Experts you have met with
+      </p>
       <div className="flex-1 text-gray-700 text-center  px-2 py-5  rounded">
         <div className="lg:flex lg:items-center">
           <div className="flex flex-col">
@@ -35,13 +37,13 @@ const PatientsPage = () => {
                           scope="col"
                           className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center "
                         >
-                          Name & Email
+                          Name
                         </th>
                         <th
                           scope="col"
                           className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center "
                         >
-                          Status
+                          Email
                         </th>
                         <th
                           scope="col"
@@ -64,8 +66,8 @@ const PatientsPage = () => {
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                      {allAppointment.length > 0 ? (
-                        allAppointment.map((data, index) => (
+                      {allAppointmentCleint.length > 0 ? (
+                        allAppointmentCleint.map((data, index) => (
                           <tr key={index}>
                             <td className="px-6 py-4 whitespace-nowrap">
                               <span className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -75,13 +77,13 @@ const PatientsPage = () => {
 
                             <td className="px-6 py-4 whitespace-nowrap">
                               <span className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {data.userName}
+                                {data.expertName}
                               </span>
                             </td>
 
                             <td className="px-6 py-4 whitespace-nowrap">
                               <span className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {data.userEmail}
+                                {data.expertEmail}
                               </span>
                             </td>
 

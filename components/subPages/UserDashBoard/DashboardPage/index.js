@@ -1,28 +1,28 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoggedInUser } from "../../../../redux/slices/authSlice";
-import { getAppointmentByEmail } from "../../../../redux/slices/appointmentSlice";
+import { getAppointmentByClientEmail } from "../../../../redux/slices/appointmentSlice";
 import { dateFormat } from "../../../../utils";
 
 const DeshboardPage = () => {
   const dispatch = useDispatch();
   const { loggedInUser } = useSelector((state) => state.auth);
-  const { allAppointment } = useSelector((state) => state.appointment);
+  const { allAppointmentCleint } = useSelector((state) => state.appointment);
 
   useEffect(() => {
     dispatch(setLoggedInUser());
     const email = JSON.parse(localStorage.getItem("userInfoLocal")).email;
-    dispatch(getAppointmentByEmail(email));
+    dispatch(getAppointmentByClientEmail(email));
   }, [dispatch]);
 
-  const date = allAppointment?.filter((appointment) => {
+  const date = allAppointmentCleint?.filter((appointment) => {
     return appointment.date == dateFormat(new Date());
   });
 
-  let result = allAppointment?.filter((e, i) => {
+  let result = allAppointmentCleint?.filter((e, i) => {
     return (
-      allAppointment.findIndex((x) => {
-        return x.userEmail == e.userEmail;
+      allAppointmentCleint.findIndex((x) => {
+        return x.expertEmail == e.expertEmail;
       }) == i
     );
   });
@@ -73,7 +73,7 @@ const DeshboardPage = () => {
         <div className="bg-white p-6 inline-flex justify-between rounded-2xl mr-5 items-center  bg-gradient-to-r from-[#777deb] to-[#4318FF] w-full">
           <div className="flex flex-col mr-6">
             <span className="text-white text-base font-bold">
-              Total Clients
+              Total Experts
             </span>
             <span className="text-white font-bold text-2xl">
               {result?.length}
@@ -88,9 +88,9 @@ const DeshboardPage = () => {
       <div className="moreInformation mb-5">
         <div className="w-3/5 flex justify-between bg-gradient-to-r from-[#6067e9] to-[#4318FF]  rounded-2xl py-7 px-8">
           <div className="text-white">
-            <p className=" text-sm font-medium">Total Earnings</p>
+            <p className=" text-sm font-medium">Total Spent</p>
             <p className=" text-4xl font-bold">
-              {allAppointment
+              {allAppointmentCleint
                 .map((appointment) => appointment.rate)
                 .reduce((acc, curr) => parseInt(acc) + parseInt(curr), 0)}
             </p>
@@ -148,7 +148,9 @@ const DeshboardPage = () => {
           </span>
           <div className="text-white">
             <p className=" text-sm font-medium">Total Appointment</p>
-            <p className=" text-4xl font-bold">{allAppointment?.length}</p>
+            <p className=" text-4xl font-bold">
+              {allAppointmentCleint?.length}
+            </p>
           </div>
         </div>
       </div>

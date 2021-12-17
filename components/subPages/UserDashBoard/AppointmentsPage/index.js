@@ -20,7 +20,7 @@ const AppointmentsPage = () => {
       date: dateFormat(value),
       email: email,
     };
-    AxiosConfig.post("appointment/booked-appointments/date", data).then(
+    AxiosConfig.post("appointment/booked-appointments/client/date", data).then(
       (res) => {
         dispatch(appointmentInfoByDate(res.data?.data));
       }
@@ -31,7 +31,7 @@ const AppointmentsPage = () => {
     <div className="">
       <p className="text-[#707EAE] text-2xl font-bold mb-4">Appoinments</p>
       <p className="text-[#707EAE] text-sm font-bold mb-4 italic">
-        Available Appointment on {dateFormat(value)}
+        Your Appointment on {dateFormat(value)}
       </p>
       <div className=" mt-5 mx-auto px-2">
         <div className="md:flex">
@@ -56,25 +56,19 @@ const AppointmentsPage = () => {
                               scope="col"
                               className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center "
                             >
-                              Name
+                              Expert Name
                             </th>
                             <th
                               scope="col"
                               className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center "
                             >
-                              Email
+                              Expet Email
                             </th>
                             <th
                               scope="col"
                               className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center "
                             >
-                              Phone
-                            </th>
-                            <th
-                              scope="col"
-                              className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center "
-                            >
-                              Status
+                              Paid Amout
                             </th>
                           </tr>
                         </thead>
@@ -83,18 +77,13 @@ const AppointmentsPage = () => {
                             appointmentByDate.map((data, index) => (
                               <tr key={index}>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                  {data.userName}
+                                  {data.expertName}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                  {data.userEmail}
+                                  {data.expertEmail}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                  {data.userPhone}
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                  <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                    Paid
-                                  </span>
+                                  {data.rate}
                                 </td>
                               </tr>
                             ))

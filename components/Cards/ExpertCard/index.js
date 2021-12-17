@@ -9,10 +9,14 @@ import { useRouter } from "next/router";
 
 const Index = ({ _id, userImage, name, email, about, category, rate }) => {
   const [open, setOpen] = useState(false);
+  const [open2, setOpen2] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
 
   const onOpenModal = () => setOpen(true);
   const onCloseModal = () => setOpen(false);
+
+  const onOpenModal2 = () => setOpen2(true);
+  const onCloseModal2 = () => setOpen2(false);
 
   const router = useRouter();
 
@@ -31,6 +35,11 @@ const Index = ({ _id, userImage, name, email, about, category, rate }) => {
       }
     }
   }, []);
+
+  const hanlePhycialAppointment = () => {
+    onCloseModal();
+    onOpenModal2();
+  };
 
   return (
     <div className="bg-white flex flex-col justify-between rounded-md overflow-hidden relative shadow-md m-2">
@@ -83,7 +92,7 @@ const Index = ({ _id, userImage, name, email, about, category, rate }) => {
       <div className="absolute top-0 right-0 mt-4 mr-4 bg-green-400 text-white rounded-full pt-1 pb-1 pl-4 pr-5 text-xs uppercase">
         <span>available</span>
       </div>
-      <Modal open={open} onClose={onCloseModal} center>
+      <Modal open={open2} onClose={onCloseModal2} center>
         <AppointmentBook
           onCloseModal={onCloseModal}
           name={name}
@@ -91,6 +100,25 @@ const Index = ({ _id, userImage, name, email, about, category, rate }) => {
           email={email}
           rate={rate}
         />
+      </Modal>
+
+      <Modal open={open} onClose={onCloseModal} center>
+        <div className="flex justify-center items-center bg-white p-2 md:px-8 md:pt-8">
+          <div className="m-2">
+            <button
+              className="bg-green-500 px-4 py-2 text-white"
+              onClick={hanlePhycialAppointment}
+            >
+              Physical Appointment
+            </button>
+          </div>
+
+          <div className="m-2">
+            <button className="bg-green-500 px-4 py-2 text-white">
+              Online Appointment
+            </button>
+          </div>
+        </div>
       </Modal>
     </div>
   );

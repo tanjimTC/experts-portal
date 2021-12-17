@@ -47,7 +47,7 @@ const UserDashboardLayout = ({ children }) => {
                 <Link href="/user-dashboard/patients" passHref={true}>
                   <a className="w-full h-full flex p-3 ">
                     <IoIosPeople className="w-6 h-6 mr-3" />
-                    <span>Patients</span>
+                    <span>Experts</span>
                   </a>
                 </Link>
               </li>
