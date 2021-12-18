@@ -17,6 +17,14 @@ export const addAppointment = createAsyncThunk(
   }
 );
 
+export const reqAppointment = createAsyncThunk(
+  "/reqAppointments",
+  async (arg) => {
+    const { data } = await AxiosConfig.post(`/appointment/req`, arg);
+    return data;
+  }
+);
+
 export const getAppointmentByEmail = createAsyncThunk(
   "/fetchAppointmentByEmail",
   async (arg) => {
@@ -26,6 +34,17 @@ export const getAppointmentByEmail = createAsyncThunk(
     return data.data;
   }
 );
+
+export const getRequstedAppointmentByEmail = createAsyncThunk(
+  "/fetchRequstedAppointmentByEmail",
+  async (arg) => {
+    const { data } = await AxiosConfig.get(
+      `/appointment/requested-appointments/${arg}`
+    );
+    return data.data;
+  }
+);
+
 export const getAppointmentByClientEmail = createAsyncThunk(
   "/fetchAppointmentByClientEmail",
   async (arg) => {
@@ -42,6 +61,7 @@ const appointmentSlice = createSlice({
     loading: true,
     AppointmentInformation: {},
     allAppointment: [],
+    allPhysicalAppointment: [],
     allAppointmentCleint: [],
     appointmentByDate: [],
   },
@@ -57,6 +77,10 @@ const appointmentSlice = createSlice({
     },
     [getAppointmentByClientEmail.fulfilled]: (state, action) => {
       state.allAppointmentCleint = action.payload;
+      state.loading = false;
+    },
+    [getRequstedAppointmentByEmail.fulfilled]: (state, action) => {
+      state.allPhysicalAppointment = action.payload;
       state.loading = false;
     },
   },
