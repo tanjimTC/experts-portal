@@ -10,6 +10,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ClipLoader from "react-spinners/ClipLoader";
 import { useDispatch } from "react-redux";
+import { getAllExperts } from "../../../redux/slices/expertSlice";
 
 const SignUpForm = () => {
   const [userImage, setUserImage] = useState("");

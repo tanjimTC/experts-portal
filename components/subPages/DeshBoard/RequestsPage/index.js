@@ -2,6 +2,11 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getRequstedAppointmentByEmail } from "../../../../redux/slices/appointmentSlice";
 import { setLoggedInExpert } from "../../../../redux/slices/authSlice";
+import { FcApproval, FcCancel } from "react-icons/fc";
+import AxiosConfig from "../../../../AxiosConfig/AxiosConfig";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const RequestsPage = () => {
   const dispatch = useDispatch();
 
@@ -13,8 +18,54 @@ const RequestsPage = () => {
     dispatch(getRequstedAppointmentByEmail(email));
   }, [dispatch]);
 
+  const handleApprove = (id) => {
+    const data = {
+      id,
+      status: true,
+    };
+    console.log(data);
+    AxiosConfig.post("/appointment/update", data).then((res) => {
+      if (res.data.success) {
+        const email = JSON.parse(localStorage.getItem("expertInfoLocal")).email;
+        dispatch(getRequstedAppointmentByEmail(email));
+        toast.success("Appointment approved successfully!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        
+      }
+    });
+  };
+
+  const handleCancel = (id) => {
+    const data = {
+      id,
+      status: false,
+    };
+    AxiosConfig.post("/appointment/update", data).then((res) => {
+      if (res.data.success) {
+        const email = JSON.parse(localStorage.getItem("expertInfoLocal")).email;
+        dispatch(getRequstedAppointmentByEmail(email));
+        toast.success("Appointment canceled successfully!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
+    });
+  };
   return (
     <div>
+      <ToastContainer />
       <p className="text-[#707EAE] text-2xl font-bold mb-4">Clients</p>
       <div className="flex-1 text-gray-700 text-center  px-2 py-5  rounded">
         <div className="lg:flex lg:items-center">
@@ -58,42 +109,55 @@ const RequestsPage = () => {
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                      {allPhysicalAppointment.length > 0 ? (
-                        allPhysicalAppointment.map((data, index) => (
-                          <tr key={index}>
-                            <td className="px-6 py-4 whitespace-nowrap">
-                              <span className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {index + 1}
-                              </span>
-                            </td>
+                      {allPhysicalAppointment.filter(
+                        (item) => item.status === false
+                      ).length > 0 ? (
+                        allPhysicalAppointment
+                          .filter((item) => item.status === false)
+                          .map((data, index) => (
+                            <tr key={index}>
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <span className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                  {index + 1}
+                                </span>
+                              </td>
 
-                            <td className="px-6 py-4 whitespace-nowrap">
-                              <span className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {data.userName}
-                              </span>
-                            </td>
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <span className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                  {data.userName}
+                                </span>
+                              </td>
 
-                            <td className="px-6 py-4 whitespace-nowrap">
-                              <span className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {data.userEmail}
-                              </span>
-                            </td>
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <span className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                  {data.userEmail}
+                                </span>
+                              </td>
 
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                              <a href={data.receipt_url} className="">
-                                {data.date}
-                              </a>
-                            </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                <a href={data.receipt_url} className="">
+                                  {data.date}
+                                </a>
+                              </td>
 
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                              <a href={data.receipt_url} className="">
-                                {data.date}
-                              </a>
-                            </td>
-                          </tr>
-                        ))
+                              <td className="whitespace-nowrap text-sm text-gray-500">
+                                <button className="inline-flex items-center justify-center w-8 h-8  text-indigo-100 ">
+                                  <FcApproval
+                                    className="w-6 h-6"
+                                    onClick={() => handleApprove(data._id)}
+                                  />
+                                </button>
+                                <button className="inline-flex items-center justify-center w-8 h-8 mr-2 text-indigo-100 ">
+                                  <FcCancel
+                                    className="w-6 h-6"
+                                    onClick={() => handleCancel(data._id)}
+                                  />
+                                </button>
+                              </td>
+                            </tr>
+                          ))
                       ) : (
-                        <h1>No Appointment</h1>
+                        <h1>No Pending physical Appointment Request</h1>
                       )}
                     </tbody>
                   </table>
