@@ -1,32 +1,55 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoggedInExpert } from "../../../../redux/slices/authSlice";
-import { getAppointmentByEmail } from "../../../../redux/slices/appointmentSlice";
+import {
+  getAppointmentByEmail,
+  getRequstedAppointmentByEmail,
+} from "../../../../redux/slices/appointmentSlice";
 import { dateFormat } from "../../../../utils";
 
 const DeshboardPage = () => {
+  const [allClients, setAllClients] = useState([]);
   const dispatch = useDispatch();
   const { loggedInExpert } = useSelector((state) => state.auth);
-  const { allAppointment } = useSelector((state) => state.appointment);
+  const { allAppointment, allPhysicalAppointment } = useSelector(
+    (state) => state.appointment
+  );
 
   useEffect(() => {
     dispatch(setLoggedInExpert());
     const email = JSON.parse(localStorage.getItem("expertInfoLocal")).email;
     dispatch(getAppointmentByEmail(email));
+    dispatch(getRequstedAppointmentByEmail(email));
   }, [dispatch]);
 
   const date = allAppointment?.filter((appointment) => {
     return appointment.date == dateFormat(new Date());
   });
 
-  let result = allAppointment?.filter((e, i) => {
+  const date2 = allPhysicalAppointment?.filter((appointment) => {
+    return appointment.date == dateFormat(new Date());
+  });
+
+
+  let myLength = date?.length + date2?.length;
+
+  const onlyPhysicalAppointment = allPhysicalAppointment?.filter(
+    (appointment) => {
+      return appointment.status === true;
+    }
+  );
+
+  useEffect(() => {
+    setAllClients([...allAppointment, ...allPhysicalAppointment]);
+  }, [allAppointment, allPhysicalAppointment]);
+
+  let result = allClients?.filter((e, i) => {
     return (
-      allAppointment.findIndex((x) => {
+      allClients.findIndex((x) => {
         return x.userEmail == e.userEmail;
       }) == i
     );
   });
-
   return (
     <>
       <div className="header  flex justify-between">
@@ -62,7 +85,7 @@ const DeshboardPage = () => {
               Today’s Appointments
             </span>
             <span className="text-[#1B2559] font-bold text-2xl">
-              {date?.length}
+              {myLength}
             </span>
           </div>
           {/* <img src="/images/graph.svg" alt="" /> */}
@@ -71,7 +94,8 @@ const DeshboardPage = () => {
         <div className="bg-white p-6 inline-flex justify-between rounded-2xl mr-5 items-center  bg-gradient-to-r from-[#777deb] to-[#4318FF] w-full">
           <div className="flex flex-col mr-6">
             <span className="text-white text-base font-bold">
-              Total Clients
+              Total
+              {result?.length + 1 === 1 ? " Client" : " Clients"}
             </span>
             <span className="text-white font-bold text-2xl">
               {result?.length}
@@ -82,15 +106,21 @@ const DeshboardPage = () => {
           </span>
         </div>
       </div>
-
       <div className="moreInformation mb-5">
         <div className="w-3/5 flex justify-between bg-gradient-to-r from-[#6067e9] to-[#4318FF]  rounded-2xl py-7 px-8">
           <div className="text-white">
             <p className=" text-sm font-medium">Total Earnings</p>
             <p className=" text-4xl font-bold">
-              {allAppointment
-                .map((appointment) => appointment.rate)
-                .reduce((acc, curr) => parseInt(acc) + parseInt(curr), 0)}
+              {`
+              ${
+                allAppointment
+                  .map((appointment) => appointment.rate)
+                  .reduce((acc, curr) => parseInt(acc) + parseInt(curr), 0) +
+                onlyPhysicalAppointment
+                  .map((appointment) => appointment.rate)
+                  .reduce((acc, curr) => parseInt(acc) + parseInt(curr), 0)
+              }
+                `}
             </p>
           </div>
           <span className="bg-[#F4F7FE] flex justify-center items-center rounded-full h-14 w-14 mr-4">
@@ -146,7 +176,9 @@ const DeshboardPage = () => {
           </span>
           <div className="text-white">
             <p className=" text-sm font-medium">Total Appointment</p>
-            <p className=" text-4xl font-bold">{allAppointment?.length}</p>
+            <p className=" text-4xl font-bold">
+              {[...allAppointment, ...onlyPhysicalAppointment]?.length}
+            </p>
           </div>
         </div>
       </div>

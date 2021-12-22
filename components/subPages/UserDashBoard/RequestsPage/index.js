@@ -1,23 +1,73 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAppointmentByClientEmail } from "../../../../redux/slices/appointmentSlice";
+import { getRequstedAppointmentByClientEmail } from "../../../../redux/slices/appointmentSlice";
 import { setLoggedInExpert } from "../../../../redux/slices/authSlice";
-import PhysicalExperts from "./PhysicalExperts";
-const PatientsPage = () => {
+import { FcApproval } from "react-icons/fc";
+import AxiosConfig from "../../../../AxiosConfig/AxiosConfig";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { AiFillDelete } from "react-icons/ai";
+
+const RequestsPage = () => {
   const dispatch = useDispatch();
 
-  const { allAppointmentCleint } = useSelector((state) => state.appointment);
+  const { allPhysicalAppointmentClient } = useSelector((state) => state.appointment);
 
   useEffect(() => {
     dispatch(setLoggedInExpert());
     const email = JSON.parse(localStorage.getItem("userInfoLocal")).email;
-    dispatch(getAppointmentByClientEmail(email));
+    dispatch(getRequstedAppointmentByClientEmail(email));
   }, [dispatch]);
 
+  const handleApprove = (id) => {
+    const data = {
+      id,
+      status: true,
+    };
+    console.log(data);
+    AxiosConfig.post("/appointment/update", data).then((res) => {
+      if (res.data.success) {
+        const email = JSON.parse(localStorage.getItem("userInfoLocal")).email;
+        dispatch(getRequstedAppointmentByClientEmail(email));
+        toast.success("Appointment approved successfully!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
+    });
+  };
+
+  const handleCancel = (id) => {
+    const data = {
+      id,
+      status: false,
+    };
+    AxiosConfig.post("/appointment/update", data).then((res) => {
+      if (res.data.success) {
+        const email = JSON.parse(localStorage.getItem("userInfoLocal")).email;
+        dispatch(getRequstedAppointmentByClientEmail(email));
+        toast.success("Appointment canceled successfully!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
+    });
+  };
   return (
     <div>
+      <ToastContainer />
       <p className="text-[#707EAE] text-2xl font-bold mb-4">
-        Experts you have met with
+         Physical Appointment Requests
       </p>
       <div className="flex-1 text-gray-700 text-center  px-2 py-5  rounded">
         <div className="lg:flex lg:items-center">
@@ -50,25 +100,19 @@ const PatientsPage = () => {
                           scope="col"
                           className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center "
                         >
-                          Status
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center "
-                        >
-                          Payment URL
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center "
-                        >
                           Date
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center "
+                        >
+                          Status
                         </th>
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                      {allAppointmentCleint.length > 0 ? (
-                        allAppointmentCleint.map((data, index) => (
+                      {allPhysicalAppointmentClient.length > 0 ? (
+                        allPhysicalAppointmentClient.map((data, index) => (
                           <tr key={index}>
                             <td className="px-6 py-4 whitespace-nowrap">
                               <span className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -88,32 +132,36 @@ const PatientsPage = () => {
                               </span>
                             </td>
 
-                            <td className="px-6 py-4 whitespace-nowrap">
-                              <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                paid
-                              </span>
-                            </td>
-
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                              <a
-                                href={data.receipt_url}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="underline"
-                              >
-                                Receipt URL
-                              </a>
-                            </td>
-
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                               <a href={data.receipt_url} className="">
                                 {data.date}
                               </a>
                             </td>
+
+                            {data.status === false ? (
+                              <td className="px-6 py-4 whitespace-nowrap flex items-center">
+                                <span className="whitespace-nowrap text-sm text-white py-0.5 px-1  rounded-2xl bg-red-400">
+                                  pending
+                                </span>
+
+                                <button className="inline-flex items-center justify-center w-8 h-8 mr-2 text-red-500 ">
+                                  <AiFillDelete
+                                    className="w-6 h-6 ml-2"
+                                    onClick={() => handleCancel(data._id)}
+                                  />
+                                </button>
+                              </td>
+                            ) : (
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <span className="whitespace-nowrap text-sm text-white py-0.5 px-1  rounded-2xl bg-green-400">
+                                  Approved
+                                </span>
+                              </td>
+                            )}
                           </tr>
                         ))
                       ) : (
-                        <h1>No Appointment</h1>
+                        <h1>No Pending physical Appointment Request</h1>
                       )}
                     </tbody>
                   </table>
@@ -123,9 +171,8 @@ const PatientsPage = () => {
           </div>
         </div>
       </div>
-      <PhysicalExperts />
     </div>
   );
 };
 
-export default PatientsPage;
+export default RequestsPage;

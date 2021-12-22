@@ -1,27 +1,52 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoggedInUser } from "../../../../redux/slices/authSlice";
-import { getAppointmentByClientEmail } from "../../../../redux/slices/appointmentSlice";
+import {
+  getAppointmentByClientEmail,
+  getRequstedAppointmentByClientEmail,
+} from "../../../../redux/slices/appointmentSlice";
 import { dateFormat } from "../../../../utils";
 
 const DeshboardPage = () => {
+  const [allExperts, setAllExperts] = useState([]);
   const dispatch = useDispatch();
   const { loggedInUser } = useSelector((state) => state.auth);
-  const { allAppointmentCleint } = useSelector((state) => state.appointment);
+  const { allAppointmentCleint, allPhysicalAppointmentClient } = useSelector(
+    (state) => state.appointment
+  );
 
   useEffect(() => {
     dispatch(setLoggedInUser());
     const email = JSON.parse(localStorage.getItem("userInfoLocal")).email;
     dispatch(getAppointmentByClientEmail(email));
+    dispatch(getRequstedAppointmentByClientEmail(email));
   }, [dispatch]);
 
   const date = allAppointmentCleint?.filter((appointment) => {
     return appointment.date == dateFormat(new Date());
   });
 
-  let result = allAppointmentCleint?.filter((e, i) => {
+  const date2 = allPhysicalAppointmentClient?.filter((appointment) => {
     return (
-      allAppointmentCleint.findIndex((x) => {
+      appointment.date == dateFormat(new Date()) && appointment.status === true
+    );
+  });
+
+  let myLength = date?.length + date2?.length;
+
+  const onlyPhysicalAppointment = allPhysicalAppointmentClient?.filter(
+    (appointment) => {
+      return appointment.status === true;
+    }
+  );
+
+  useEffect(() => {
+    setAllExperts([...allAppointmentCleint, ...allPhysicalAppointmentClient]);
+  }, [allAppointmentCleint, allPhysicalAppointmentClient]);
+
+  let result = allExperts?.filter((e, i) => {
+    return (
+      allExperts.findIndex((x) => {
         return x.expertEmail == e.expertEmail;
       }) == i
     );
@@ -64,7 +89,7 @@ const DeshboardPage = () => {
               {"Today's Appointments"}
             </span>
             <span className="text-[#1B2559] font-bold text-2xl">
-              {date?.length}
+              {myLength}
             </span>
           </div>
           {/* <img src="/images/graph.svg" alt="" /> */}
@@ -90,9 +115,16 @@ const DeshboardPage = () => {
           <div className="text-white">
             <p className=" text-sm font-medium">Total Spent</p>
             <p className=" text-4xl font-bold">
-              {allAppointmentCleint
-                .map((appointment) => appointment.rate)
-                .reduce((acc, curr) => parseInt(acc) + parseInt(curr), 0)}
+              {`
+              ${
+                allAppointmentCleint
+                  .map((appointment) => appointment.rate)
+                  .reduce((acc, curr) => parseInt(acc) + parseInt(curr), 0) +
+                onlyPhysicalAppointment
+                  .map((appointment) => appointment.rate)
+                  .reduce((acc, curr) => parseInt(acc) + parseInt(curr), 0)
+              }
+                `}
             </p>
           </div>
           <span className="bg-[#F4F7FE] flex justify-center items-center rounded-full h-14 w-14 mr-4">
@@ -149,7 +181,7 @@ const DeshboardPage = () => {
           <div className="text-white">
             <p className=" text-sm font-medium">Total Appointment</p>
             <p className=" text-4xl font-bold">
-              {allAppointmentCleint?.length}
+              {[...allAppointmentCleint, ...onlyPhysicalAppointment]?.length}
             </p>
           </div>
         </div>

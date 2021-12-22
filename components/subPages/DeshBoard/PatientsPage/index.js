@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAppointmentByEmail } from "../../../../redux/slices/appointmentSlice";
 import { setLoggedInExpert } from "../../../../redux/slices/authSlice";
+import PhysicalPatients from "./PhysicalPatients";
 const PatientsPage = () => {
   const dispatch = useDispatch();
 
@@ -15,7 +16,7 @@ const PatientsPage = () => {
 
   return (
     <div>
-      <p className="text-[#707EAE] text-2xl font-bold mb-4">Clients</p>
+      <p className="text-[#707EAE] text-2xl font-bold mb-4">Clients - Online</p>
       <div className="flex-1 text-gray-700 text-center  px-2 py-5  rounded">
         <div className="lg:flex lg:items-center">
           <div className="flex flex-col">
@@ -120,6 +121,7 @@ const PatientsPage = () => {
           </div>
         </div>
       </div>
+      <PhysicalPatients />
     </div>
   );
 };

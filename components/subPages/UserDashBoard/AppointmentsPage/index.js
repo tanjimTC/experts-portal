@@ -3,13 +3,19 @@ import { useState } from "react";
 import { dateFormat } from "../../../../utils";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { appointmentInfoByDate } from "../../../../redux/slices/appointmentSlice";
+import {
+  appointmentInfoByDate,
+  physicalAppointmentInfoByClientDate,
+} from "../../../../redux/slices/appointmentSlice";
 import AxiosConfig from "../../../../AxiosConfig/AxiosConfig";
+import PhysicalAppointment from "./PhysicalAppointment";
 
 const AppointmentsPage = () => {
   const dispatch = useDispatch();
   const [value, setValue] = useState(new Date());
-  const { appointmentByDate } = useSelector((state) => state.appointment);
+  const { appointmentByDate, physicalAppointmentByClientDate } = useSelector(
+    (state) => state.appointment
+  );
   const onChange = (value) => {
     setValue(value);
   };
@@ -25,6 +31,13 @@ const AppointmentsPage = () => {
         dispatch(appointmentInfoByDate(res.data?.data));
       }
     );
+
+    AxiosConfig.post(
+      "appointment/booked-appointments/physical/client/date",
+      data
+    ).then((res) => {
+      dispatch(physicalAppointmentInfoByClientDate(res.data?.data));
+    });
   }, [value, dispatch]);
 
   return (
@@ -46,6 +59,9 @@ const AppointmentsPage = () => {
           <div className="flex-1 text-gray-700 text-center  px-2 py-5  rounded">
             <div className="lg:flex lg:items-center">
               <div className="flex flex-col">
+                <p className="text-[#707EAE] text-sm font-bold mb-4 italic text-left">
+                  Online Appointments
+                </p>
                 <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                   <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                     <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
@@ -101,6 +117,10 @@ const AppointmentsPage = () => {
                 </div>
               </div>
             </div>
+            <PhysicalAppointment
+              physicalAppointmentByClientDate={physicalAppointmentByClientDate}
+              value={value}
+            />
           </div>
         </div>
       </div>
