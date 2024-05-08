@@ -1,0 +1,58 @@
+.footer-container {
+  background: #161928;
+  @apply text-white font-primary py-10 px-5 lg:px-28 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4;
+}
+
+.footer-container ul li {
+  @apply mt-3 text-sm;
+}
+
+.footer-address-section {
+  @apply col-span-1 pl-10 md:pl-0;
+}
+
+.footer-address-section ul li {
+  @apply flex;
+}
+
+.footer-address-section-icons {
+  @apply mt-1 mr-4;
+}
+
+.footer-quick-link {
+  @apply col-span-1 pl-10 mt-5 sm:mt-0;
+}
+
+.footer-service-section {
+  @apply col-span-1 pl-10 mt-5 md:mt-0;
+}
+
+.footer-legal-section {
+  @apply col-span-1 pl-10 md:pl-20 mt-5 md:mt-0;
+}
+
+.footer-quick-link p,
+.footer-legal-section p {
+  @apply text-xl font-bold uppercase;
+}
+
+.footer-copyrights-section {
+  @apply border-t-2 pt-5 col-span-1 sm:col-span-2 md:col-span-4 sm:flex sm:justify-between mt-10 mx-10 md:mx-0;
+}
+
+.footer-copyrights-section-icon {
+  margin-top: 3px;
+  margin-right: 10px;
+}
+
+.footer-copyrights-section-text {
+  @apply flex text-xs sm:text-base;
+}
+
+.footer-social-icons-container {
+  @apply flex gap-x-3 pl-5 mt-3 sm:pl-0 sm:mt-0 justify-center;
+}
+
+.footer-social-icon {
+  @apply text-base md:text-2xl;
+}

@@ -1,0 +1,13 @@
+.list {
+  display: flex;
+}
+.list > li {
+  cursor: pointer;
+  padding: 8px 8px;
+  border-radius: 5px;
+  border: 1px solid #e9e2e0;
+}
+.policy-title:active {
+  color: white;
+  background-color: blue;
+}

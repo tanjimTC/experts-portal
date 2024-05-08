@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="46.967" height="43.46" viewBox="0 0 46.967 43.46">
+    <defs>
+        <style>
+            .cls-1{fill:#fff}
+        </style>
+    </defs>
+    <g id="shopping-cart" transform="translate(0 -19.114)">
+        <g id="Group_460" transform="translate(15.563 54.313)">
+            <g id="Group_459" transform="translate(0 0)">
+                <path id="Path_104" d="M173.787 402.828a4.131 4.131 0 1 0 4.131 4.131 4.135 4.135 0 0 0-4.131-4.131zm0 5.955a1.824 1.824 0 1 1 1.824-1.824 1.826 1.826 0 0 1-1.824 1.824z" class="cls-1" transform="translate(-169.656 -402.828)"/>
+            </g>
+        </g>
+        <g id="Group_462" transform="translate(30.051 54.313)">
+            <g id="Group_461" transform="translate(0 0)">
+                <path id="Path_105" d="M331.732 402.828a4.131 4.131 0 1 0 4.131 4.131 4.135 4.135 0 0 0-4.131-4.131zm0 5.955a1.824 1.824 0 1 1 1.824-1.824 1.826 1.826 0 0 1-1.824 1.824z" class="cls-1" transform="translate(-327.601 -402.828)"/>
+            </g>
+        </g>
+        <g id="Group_464" transform="translate(17.52 32.566)">
+            <g id="Group_463">
+                <path id="Path_106" d="M208.675 165.755h-16.526a1.153 1.153 0 0 0 0 2.306h16.526a1.153 1.153 0 1 0 0-2.306z" class="cls-1" transform="translate(-190.996 -165.755)"/>
+            </g>
+        </g>
+        <g id="Group_466" transform="translate(18.42 38.554)">
+            <g id="Group_465" transform="translate(0 0)">
+                <path id="Path_107" d="M216.682 231.035h-14.727a1.153 1.153 0 0 0 0 2.306h14.726a1.153 1.153 0 0 0 0-2.306z" class="cls-1" transform="translate(-200.802 -231.035)"/>
+            </g>
+        </g>
+        <g id="Group_468" transform="translate(0 19.114)">
+            <g id="Group_467" transform="translate(0)">
+                <path id="Path_108" d="M46.448 27.428a2.3 2.3 0 0 0-1.788-.849H8.74l-.725-3.522a2.309 2.309 0 0 0-1.341-1.65l-5.062-2.2a1.153 1.153 0 0 0-.918 2.115l5.062 2.2 5.58 27.085a2.315 2.315 0 0 0 2.259 1.841h27.626a1.153 1.153 0 0 0 0-2.306H13.594l-.679-3.295h28.519a2.315 2.315 0 0 0 2.259-1.841l3.226-15.656a2.3 2.3 0 0 0-.471-1.922zm-5.014 17.113H12.44L9.215 28.885H44.66z" class="cls-1" transform="translate(0 -19.114)"/>
+            </g>
+        </g>
+    </g>
+</svg>
